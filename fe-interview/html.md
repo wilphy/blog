@@ -1,62 +1,65 @@
 ### HTML
 
-#### HTML 语义化
+> #### HTML 语义化
 
-> 根据内容的结构化（内容语义化），选择合适的标签（代码语义化）便于开发者阅读和写出更优雅的代码的同时让浏览器的爬虫和机器很好地解析。  
-> 尽可能少的使用无语义的标签 div 和 span；  
-> 不要使用纯样式标签，如：b、font、u 等，改用 css 设置。
+- 根据内容的结构化（内容语义化），选择合适的标签（代码语义化）便于开发者阅读和写出更优雅的代码的同时让浏览器的爬虫和机器很好地解析。
+- 尽可能少的使用无语义的标签 div 和 span；
+- 不要使用纯样式标签，如：b、font、u 等，改用 css 设置。
 
-#### HTML5
+> #### HTML5 新增标签
 
-> 新增
+- 语义化：`<header><footer><main><nav><article><aside><progress><dialog>`
+- 图像：`<canvas><svg>`
+- 媒体类型：`<audio><video>`
 
 > #### meta 标签
 
-```
-<!DOCTYPE html>  H5标准声明，使用 HTML5 doctype，不区分大小写
-<head lang=”en”> 标准的 lang 属性写法
-<meta charset=’utf-8′>    声明文档使用的字符编码
-<meta http-equiv=”X-UA-Compatible” content=”IE=edge,chrome=1″/>   优先使用 IE 最新版本和 Chrome
-<meta name=”description” content=”不超过150个字符”/>       页面描述
-<meta name=”keywords” content=””/>      页面关键词
-<meta name=”author” content=”name, email@gmail.com”/>    网页作者
-<meta name=”robots” content=”index,follow”/>      搜索引擎抓取
-<meta name=”viewport” content=”initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no”> 为移动设备添加 viewport
-<meta name=”apple-mobile-web-app-title” content=”标题”> iOS 设备 begin
-<meta name=”apple-mobile-web-app-capable” content=”yes”/>  添加到主屏后的标题（iOS 6 新增）
-是否启用 WebApp 全屏模式，删除苹果默认的工具栏和菜单栏
-<meta name=”apple-itunes-app” content=”app-id=myAppStoreID, affiliate-data=myAffiliateData, app-argument=myURL”>
-添加智能 App 广告条 Smart App Banner（iOS 6+ Safari）
-<meta name=”apple-mobile-web-app-status-bar-style” content=”black”/>
-<meta name=”format-detection” content=”telphone=no, email=no”/>  设置苹果工具栏颜色
-<meta name=”renderer” content=”webkit”>  启用360浏览器的极速模式(webkit)
-<meta http-equiv=”X-UA-Compatible” content=”IE=edge”>     避免IE使用兼容模式
-<meta http-equiv=”Cache-Control” content=”no-siteapp” />    不让百度转码
-<meta name=”HandheldFriendly” content=”true”>     针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓
-<meta name=”MobileOptimized” content=”320″>   微软的老式浏览器
-<meta name=”screen-orientation” content=”portrait”>   uc强制竖屏
-<meta name=”x5-orientation” content=”portrait”>    QQ强制竖屏
-<meta name=”full-screen” content=”yes”>              UC强制全屏
-<meta name=”x5-fullscreen” content=”true”>       QQ强制全屏
-<meta name=”browsermode” content=”application”>   UC应用模式
-<meta name=”x5-page-mode” content=”app”>    QQ应用模式
-<meta name=”msapplication-tap-highlight” content=”no”>    windows phone 点击无高光
-设置页面不缓存
-<meta http-equiv=”pragma” content=”no-cache”>
-<meta http-equiv=”cache-control” content=”no-cache”>
-<meta http-equiv=”expires” content=”0″>
+`<meta>`元素可以定义文档的各种元数据，提供各种文档信息，通俗点说就是可以理解为提供了关于网站的各种信息。html 文档中可以包含多个`<meta>`元素，每个`<meta>`元素只能用于一种用途，如果想定义多个文档信息，则需要在 head 标签中添加多个 meta 元素。
+
+- meta 元素定义的元数据的类型包括以下几种：
+  - 如果设置了 name 属性，meta 元素提供的是文档级别（document-level）的元数据，应用于整个页面。
+  - 如果设置了 http-equiv 属性，meta 元素则是编译指令，提供的信息与类似命名的 HTTP 头部相同。
+  - 如果设置了 charset 属性，meta 元素是一个字符集声明，告诉文档使用哪种字符编码。
+  - 如果设置了 itemprop 属性，meta 元素提供用户定义的元数据。
 
 ```
+<meta
+  name="viewport",
+  content="width=device-width,
+  user-scalable=no,
+  initial-scale=1.0,
+  maximum-scale=1.0,
+  minimum-scale=1.0">
+```
 
-#### Canvas
+> #### Canvas
 
->
+`<canvas id="" width="300" height="300"></canvas> //默认 width 为 300、height 为 150,单位都是 px`
 
-#### 浏览器内核
+- Canvas API 提供了一个通过 JavaScript 和 HTML 的`<canvas>`元素来绘制图形的方式。它可以用于动画、游戏画面、数据可视化、图片编辑以及实时视频处理等方面
+- Canvas API 主要聚焦 2D 图形。而同样使用`<canvas>`元素的 WebGL API 则用于绘制硬件加速的 2D 和 3D 图形
 
-> 1、IE：Trident  
-> 2、Chrome：统称为 Chromium 内核，以前是 Webkit，现在是 Blink  
-> 3、Firefox：Gecko  
-> 4、Safari：Webkit  
-> 5、Opera：最初是自己的 Presto 内核，后来是 Webkit，现在是 Blink 内核  
-> 6、360/猎豹：IE+Chrome 双内核
+> #### svg 和 canvas 各自的优缺点？
+
+都是有效的图形工具，对于数据较小的情况下，都有很高的性能，使用 JavaScript 和 HTML，都遵守 W3C 标准。
+
+- svg 优点：
+  - 矢量图，不依赖于像素，无限放大后不会失真。
+  - 以 dom 的形式表示，事件绑定由浏览器直接分发到节点上。
+- svg 缺点：
+  - dom 形式，涉及到动画时候需要更新 dom，性能较低。
+- canvas 优点：
+  - 定制型更强，可以绘制绘制自己想要的东西。
+  - 非 dom 结构形式，用 JavaScript 进行绘制，涉及到动画性能较高。
+- canvas 缺点：
+  - 事件分发由 canvas 处理，绘制的内容的事件需要自己做处理。
+  - 依赖于像素，无法高效保真，画布较大时候性能较低。
+
+> #### 浏览器内核
+
+- IE：Trident
+- Chrome：统称为 Chromium 内核，以前是 Webkit，现在是 Blink
+- Firefox：Gecko
+- Safari：Webkit
+- Opera：最初是自己的 Presto 内核，后来是 Webkit，现在是 Blink 内核
+- 360/猎豹：IE+Chrome 双内核

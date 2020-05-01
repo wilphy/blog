@@ -1,0 +1,68 @@
+> #### 小程序页面的生命周期函数
+
+- `onLoad` 页面加载时触发。一个页面只会调用一次，可以在 onLoad 的参数中获取打开当前页面路径中的参数
+- `onShow()` 页面显示/切入前台时触发
+- `onReady()` 页面初次渲染完成时触发。一个页面只会调用一次，代表页面已经准备妥当，可以和视图层进行交互
+- `onHide()` 页面隐藏/切入后台时触发。 如 navigateTo 或底部 tab 切换到其他页面，小程序切入后台等
+- `onUnload()` 页面卸载时触发。如 redirectTo 或 navigateBack 到其他页面时
+
+> #### 页面事件处理函数
+
+- `onPullDownRefresh()`监听用户下拉刷新事件。
+  - 需要在 app.json 的 window 选项中或页面配置中开启 enablePullDownRefresh。
+  - 可以通过 wx.startPullDownRefresh 触发下拉刷新，调用后触发下拉刷新动画，效果与用户手动下拉刷新一致。
+  - 当处理完数据刷新后，wx.stopPullDownRefresh 可以停止当前页面的下拉刷新。
+- `onReachBottom()`监听用户上拉触底事件。
+
+  - 可以在 app.json 的 window 选项中或页面配置中设置触发距离 onReachBottomDistance。
+  - 在触发距离内滑动期间，本事件只会被触发一次。
+
+> #### 小程序的双向绑定和 vue 的不同点
+
+- 小程序直接 this.data 的属性是不可以同步到视图的，必须调用：`this.setData({a: a})`
+
+> #### wxss 和 css
+
+- 尺寸单位 rpx:
+  rpx 是响应式像素,可以根据屏幕宽度进行自适应。规定屏幕宽为 750rpx。如在 iPhone6 上，屏幕宽度为 375px，共有 750 个物理像素，则 750rpx = 375px = 750 物理像素
+- 使用 @import 标识符来导入外联样式。`@import './base.wxss';`
+
+> #### 小程序页面间有哪些传递数据的方法
+
+- 使用全局变量实现数据传递  
+  在 app.js 文件中定义全局变量 globalData， 将需要存储的信息存放在里面
+  ```js
+  // app.js
+  App({
+    // 全局变量
+    globalData: {
+      userInfo: null,
+    },
+  });
+  ```
+  使用的时候，直接使用 getApp() 拿到存储的信息
+
+> #### 微信小程序的优劣势
+
+- 优势
+  - 即用即走，不用安装，省流量，省安装时间，不占用桌面
+  - 依托微信流量，天生推广传播优势
+  - 开发成本比 App 低
+- 缺点
+  - 用户留存，即用即走是优势，也存在一些问题
+  - 入口相对传统 App 要深很多
+  - 限制较多,页面大小不能超过 2M。不能打开超过 10 个层级的页面
+
+> #### bindtap 和 catchtap 的区别
+
+- 同：首先他们都是作为点击事件函数，就是点击时触发。在这个作用上他们是一样的，可以不做区分
+
+- 异：他们的不同点主要是 bindtap 是不会阻止冒泡事件的，catchtap 是阻止冒泡的
+
+> #### 页面跳转的区别
+
+- wx.navigateTo()：保留当前页面，跳转到应用内的某个页面。但是不能跳到 tabbar 页面
+- wx.redirectTo()：关闭当前页面，跳转到应用内的某个页面。但是不允许跳转到 tabbar 页面
+- wx.switchTab()：跳转到 abBar 页面，并关闭其他所有非 tabBar 页面
+- wx.navigateBack()关闭当前页面，返回上一页面或多级页面。可通过 getCurrentPages() 获取当前的页面栈，决定需要返回几层
+- wx.reLaunch()：关闭所有页面，打开到应用内的某个页面

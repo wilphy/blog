@@ -1,19 +1,32 @@
-### Vue
+> #### Vue 生命周期钩子
 
-#### Vue 生命周期钩子
+> #### 组件通信
 
-#### 组件通信
+> #### Methods / Computed / Watch
 
-#### Methods / Computed / Watch
+> #### Vue-router
 
-#### Vuex
+- mode
+  - `hash`
+  - `history`
+- 跳转
+  - `this.$router.push()`
+  - `<router-link to=""></router-link>`
+- 占位
+  - `<router-view></router-view>`
 
-#### VueRouter
+> #### Vuex
 
-#### 路由守卫
+- state: 状态中心
+- mutations: 更改状态
+- actions: 异步更改状态
+- getters: 获取状态
+- modules: 将 state 分成多个 modules，便于管理
 
-#### Vue 原理
+> #### 路由守卫
 
-#### 虚拟 DOM
+> #### Vue 原理
 
-#### MVC / MVVM
+> #### 虚拟 DOM
+
+> #### MVC / MVVM

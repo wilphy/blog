@@ -14,7 +14,6 @@
     <!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/themes/buble.css" /> -->
     <!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/themes/dark.css" /> -->
     <!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/themes/pure.css" /> -->
-    
   </head>
   <body>
     <div id="app">Loading...</div>
@@ -24,27 +23,43 @@
         repo: "",
         coverpage: false, // 封面
         loadSidebar: true, // 自定义侧边导航
+        subMaxLevel: 6, // 侧边栏
+        search: "auto", // default
+
+        search: [
+          "/", // => /README.md
+          "/html",
+          "/css",
+          "/js",
+        ],
+
+        // complete configuration parameters
         search: {
-          maxAge: 86400000, // 过期时间，单位毫秒，默认一天
+          maxAge: 86400000, // Expiration time, the default one day
           paths: [], // or 'auto'
-          placeholder: "search",
-          // 支持本地化
+          placeholder: "Type to search",
+          // Localization
           placeholder: {
             "/zh-cn/": "搜索",
             "/": "Type to search",
           },
           noData: "No Results!",
-          // 支持本地化
+          // Localization
           noData: {
             "/zh-cn/": "找不到结果",
             "/": "No Results",
           },
-          // 搜索标题的最大程级, 1 - 6
+          // Headline depth, 1 - 6
           depth: 1,
+          hideOtherSidebarContent: false, // whether or not to hide other sidebar content
+          // To avoid search index collision
+          // between multiple websites under the same domain
+          namespace: "website-1",
         },
       };
     </script>
-    <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
-    <script src="//unpkg.com/docsify/lib/plugins/search.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/emoji.min.js"></script>
   </body>
 </html>

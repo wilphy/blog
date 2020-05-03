@@ -1,5 +1,3 @@
-### HTML
-
 > #### HTML 语义化
 
 - 根据内容的结构化（内容语义化），选择合适的标签（代码语义化）便于开发者阅读和写出更优雅的代码的同时让浏览器的爬虫和机器很好地解析。
@@ -23,18 +21,29 @@
   - 如果设置了 itemprop 属性，meta 元素提供用户定义的元数据。
 
 ```
-<meta
-  name="viewport",
-  content="width=device-width,
-  user-scalable=no,
-  initial-scale=1.0,
-  maximum-scale=1.0,
-  minimum-scale=1.0">
+<meta charset="utf-8">
+<meta http-equiv="expires" content="31 Dec 2008">
+<meta name="keywords" content="HTML,ASP,PHP,SQL">
+<meta name="viewport", content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0,  minimum-scale=1.0">
 ```
+
+> #### 页面导入样式时，使用 link 和@import 有什么区别？
+
+> #### HTML5 的离线储存怎么使用，工作原理能不能解释一下？
+
+> #### 浏览器是怎么对 HTML5 的离线储存资源进行管理和加载的呢？
+
+> #### 请描述一下 cookies，sessionStorage 和 localStorage 的区别？
+
+> #### iframe 有那些缺点？
+
+> #### 如何在页面上实现一个圆形的可点击区域？
+
+> #### 实现不使用 border 画出 1px 高的线，在不同浏览器的 Quirksmode 和 CSSCompat 模式下都能保持同一效果。
 
 > #### Canvas
 
-`<canvas id="" width="300" height="300"></canvas> //默认 width 为 300、height 为 150,单位都是 px`
+`<canvas id="" width="300" height="300"></canvas>` //默认 width 为 300、height 为 150,单位都是 px
 
 - Canvas API 提供了一个通过 JavaScript 和 HTML 的`<canvas>`元素来绘制图形的方式。它可以用于动画、游戏画面、数据可视化、图片编辑以及实时视频处理等方面
 - Canvas API 主要聚焦 2D 图形。而同样使用`<canvas>`元素的 WebGL API 则用于绘制硬件加速的 2D 和 3D 图形
@@ -54,12 +63,3 @@
 - canvas 缺点：
   - 事件分发由 canvas 处理，绘制的内容的事件需要自己做处理。
   - 依赖于像素，无法高效保真，画布较大时候性能较低。
-
-> #### 浏览器内核
-
-- IE：Trident
-- Chrome：统称为 Chromium 内核，以前是 Webkit，现在是 Blink
-- Firefox：Gecko
-- Safari：Webkit
-- Opera：最初是自己的 Presto 内核，后来是 Webkit，现在是 Blink 内核
-- 360/猎豹：IE+Chrome 双内核

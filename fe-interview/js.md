@@ -1,102 +1,99 @@
-### JS
+> #### JavaScript 基本数据类型
 
-#### 数据类型
+> #### 原型与原型链
 
-#### 原型与原型链
+> #### Javascript 如何实现继承？
 
-#### 作用域与闭包
+> #### Javascript 创建对象的几种方式？
 
-#### 异步与单线程
+> #### new 运算符的执行过程
 
-#### 手写 Promise
+1. 新生成一个对象
+2. 链接到原型: obj.**proto** = Con.prototype
+3. 绑定 this: apply
+4. 返回新对象(如果构造函数有自己 retrun 时，则返回该值)
 
-#### Promise.all
+> #### 作用域
 
-#### Promise.race
+> #### 闭包
 
-#### async / await
+> #### 异步与单线程
 
-#### 手写函数防抖和节流
+> #### 手写 Promise
 
-> 防抖  
-> 触发高频事件后 n 秒内函数只会执行一次，如果 n 秒内高频事件再次被触发，则重新计算时间；  
-> 思路：每次触发事件时都取消之前的延时调用方法：  
-> 乞丐版：
+> #### Promise.all
 
-```javascript
-function debounce(fn) {
-  let timeout = null; // 创建一个标记用来存放定时器的返回值
-  return function () {
-    clearTimeout(timeout); // 每当用户输入的时候把前一个 setTimeout clear 掉
-    timeout = setTimeout(() => {
-      // 然后又创建一个新的 setTimeout
-      // 这样就能保证输入字符后的 interval 间隔内如果还有字符输入的话，就不会执行 fn 函数
-      fn.apply(this, arguments);
-    }, 500);
-  };
-}
-function sayHi() {
-  console.log("防抖成功");
-}
+> #### Promise.race
 
-var inp = document.getElementById("inp");
-inp.addEventListener("input", debounce(sayHi)); // 防抖
-```
+> #### async / await
 
-> 节流  
-> 高频事件触发，但在 n 秒内只会执行一次，所以节流会稀释函数的执行频率。
-> 思路：每次触发事件时都判断当前是否有等待执行的延时函数。  
-> 乞丐版：
+> #### documen.write 和 innerHTML 的区别?
 
-```javascript
-function throttle(fn) {
-  let canRun = true; // 通过闭包保存一个标记
-  return function () {
-    if (!canRun) return; // 在函数开头判断标记是否为 true，不为 true 则 return
-    canRun = false; // 立即设置为 false
-    setTimeout(() => {
-      // 将外部传入的函数的执行放在 setTimeout 中
-      fn.apply(this, arguments);
-      // 最后在 setTimeout 执行完毕后再把标记设置为 true(关键) 表示可以执行下一次循环了
-      // 当定时器没有执行的时候标记永远是 false，在开头被 return 掉
-      canRun = true;
-    }, 500);
-  };
-}
-function sayHi(e) {
-  console.log(e.target.innerWidth, e.target.innerHeight);
-}
-window.addEventListener("resize", throttle(sayHi));
-```
+> #### 手写函数防抖和节流
 
-#### 手写 Ajax
+防抖与节流函数是一种最常用的 高频触发优化方式，能对性能有较大的帮助。
 
-#### this
+- `防抖 (debounce)`: 将多次高频操作优化为只在最后一次执行，通常使用的场景是：用户输入，只需再输入完成后做一次输入校验即可。
 
-#### call / bind / apply
+  ```js
+  function debounce(fn, wait, immediate) {
+    let timer = null;
 
-#### 浅拷贝/深拷贝
+    return function () {
+      let args = arguments;
+      let context = this;
 
-#### map / filter / reduce / forEach
+      if (immediate && !timer) {
+        fn.apply(context, args);
+      }
 
-##### map
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        fn.apply(context, args);
+      }, wait);
+    };
+  }
+  ```
 
-> map 的作用是 map 中传入一个函数，该函数会遍历该数组，对每一个元素做变换之后返回新数组。
+- 节流(throttle): 每隔一段时间后执行一次，也就是降低频率，将高频操作优化成低频操作，通常使用场景: 滚动条事件 或者 resize 事件，通常每隔 100~500 ms 执行一次即可。
 
-##### filter
+  ```js
+  function throttle(fn, wait, immediate) {
+    let timer = null;
+    let callNow = immediate;
 
-##### reduce
+    return function () {
+      let context = this,
+        args = arguments;
 
-##### forEach
+      if (callNow) {
+        fn.apply(context, args);
+        callNow = false;
+      }
 
-#### 数组去重
+      if (!timer) {
+        timer = setTimeout(() => {
+          fn.apply(context, args);
+          timer = null;
+        }, wait);
+      }
+    };
+  }
+  ```
 
-#### 正则
+> #### 手写 Ajax
 
-#### let / var / const
+> #### this
 
-### DOM
+> #### call / bind / apply
 
-#### DOM 事件模型
+> #### 浅拷贝/深拷贝
 
-#### 移动端触摸事件
+> #### map / filter / reduce / forEach
+
+> #### 数组去重
+
+> #### 正则
+
+> #### let / var / const
+

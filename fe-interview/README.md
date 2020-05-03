@@ -1,1 +1,1 @@
-#### [HTML](HTML) | [CSS](CSS) | [JS](JS) | [DOM](DOM) | [网络](网络) | [Vue](Vue) | [other](other) | [MP](mp)
+#### [html](html) | [css](css) | [js](js) | [dom](dom) | [net](net) | [vue](vue) | [other](other) | [mp](mp)

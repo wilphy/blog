@@ -14,9 +14,13 @@
 
 > #### 原型与原型链
 
-> #### 如何理解原型链
+1. 所有的实例的 `__proto__` 都指向该构造函数的原型对象（`prototype`）。
 
-每个函数都拥有一个 prototype 属性，每个函数实例对象都拥有一个\_\_proto\_\_属性，而这个属性指向了函数的 prototype，当我们访问实例对象的属性或者方法时，会先从自身构造函数中查找，如果没有就通过\_\_proto\_\_去原型中查找，这个查找的过程我们称之为原型链。
+2. 所有的函数（包括构造函数）是 `Function` 的实例，所以所有函数的 `__proto__` 的都指向 `Function` 的原型对象。
+
+3. 所有的原型对象（包括 `Function` 的原型对象）都是 Object 的实例，所以 `__proto__` 都指向 `Object`（构造函数）的原型对象。而 Object 构造函数的 `__proto__` 指向 `null`。
+
+4. `Function` 构造函数本身就是 `Function` 的实例，所以 `__proto__` 指向 `Function` 的原型对象。
 
 > #### Javascript 如何实现继承？
 
@@ -98,6 +102,21 @@
   ```
 
 > #### 手写 Ajax
+
+```js
+var xhr = new XMLHttpRequest();
+xhr.open("GET", url, false);
+xhr.onreadtstatechange = function () {
+  if (xhr.readystate == 4) {
+    //响应内容解析完成，可以在客户端调用了
+    if (xhr.status == 200) {
+      //客户端的请求成功了
+      alert(xhr.responseText);
+    }
+  }
+};
+xhr.send(null);
+```
 
 > #### this
 
@@ -253,7 +272,47 @@
 - JSON.stringify 实现的是深拷贝，但是对目标对象有要求；
 - 若想真正意义上的深拷贝，请递归。
 
-> #### map / filter / reduce / forEach
+> #### map / filter / reduce
+
+- `map` 的作用是 map 中传入一个函数，该函数会遍历该数组，对每一个元素做变换之后返回新数组。
+
+  - element : 对应数组的每个元素。
+  - index: 数组元素的下标。
+  - arr : 原数组。
+
+  ```js
+  let arr = [2, 3, 4];
+  arr = arr.map(function (element, index, arr) {
+    return arr[index] + 1;
+  }); // [3,4,5]
+  ```
+
+- `filter` 的作用是也是生成一个数组，传入的函数返回值确实布尔类型，返回值为 true 的元素放入新数组，通常来筛选删除不需要的元素。
+
+  - element : 对应数组的每个元素。
+  - index : 数组元素的下标。
+  - arr : 原数组。
+
+  ```js
+  let array = [1, 2, 4, 6];
+  let arr = array.filter(function (element) {
+    return element != 6;
+  }); // [1,2,4]
+  ```
+
+- `reduce` 可以将数组中的元素通过回调函数最终转换为一个值。
+
+  - acc：累计值(第一次的值代表初始化的值)。
+  - element： 当前元素。
+  - index： 当前索引。
+  - arr： 原数组。
+
+  ```js
+  let arr = [1, 2, 3];
+  let sum = arr.reduce(function (acc, element) {
+    return acc + element;
+  }, 0); // 6
+  ```
 
 > #### for in 和 for of 区别
 
@@ -268,7 +327,7 @@
 
 <img src="imgs/js_01.png">
 
-leading 为是否在进入时立即执行一次，原理是利用定时器，如果在规定时间内再次触发事件会将上次的定时器清除，即不会执行函数并重新设置一个新的定时器，直到超过规定时间自动触发定时器中的函数  
+leading 为是否在进入时立即执行一次，原理是利用定时器，如果在规定时间内再次触发事件会将上次的定时器清除，即不会执行函数并重新设置一个新的定时器，直到超过规定时间自动触发定时器中的函数
 同时通过闭包向外暴露了一个 cancel 函数，使得外部能直接清除内部的计数器
 
 > #### 函数节流

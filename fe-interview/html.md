@@ -29,17 +29,127 @@
 
 > #### 页面导入样式时，使用 link 和@import 有什么区别？
 
-> #### HTML5 的离线储存怎么使用，工作原理能不能解释一下？
+1. link 是 XHTML 标签,它不仅可以引入 css 文件，还可以引入网站图标或者设置媒体查询。
+   - @import 是 CSS 提供的语法规则，只能用来加载 css。
+   - @import 一定要写在除@charset 外的其他任何 CSS 规则之前，如果置于其它位置将会被浏览器忽略。而且，在@import 之后如果存在其它样式，则@import 之后的分号是必须书写，不可省略的。
+2. link 引入 css 文件，页面载入同时载入 css 文件，@import 在页面完全载入之后载入 css 文件，在网络较慢情况下一开始会没有 css 样式。
+3. link 在浏览器中没有兼容问题。@import 在 css2.1 中提出，低版本浏览器会不支持。
+4. link 中的 css 可以被 javascript 获取进而控制 DOM，而@import 不支持。
+
+> #### HTML5 的离线储存 Cookie、Storage、IndexedDB
+
+1. <font color="#f06">Cookie</font>
+
+- 最古老的存储方式为 Cookie，这种存储方式存储内容很有限，只适合做简单信息存储，存储空间大小只有 4K，存储有效时间有限制。
+- Cookie 是服务器发送到用户浏览器并保存在本地的一小块数据，它会在浏览器下次向同一服务器再发起请求时被携带并发送到服务器上，使得每次的请求数据都会无意义的增大
+- 通常，它用于告知服务端两个请求是否来自同一浏览器，如保持用户的登录状态。
+- Cookie 使基于无状态的 HTTP 协议记录稳定的状态信息成为了可能。
+
+```js
+function getCookieValue(name) {
+  if (document.cookie.length > 0) {
+    var start = document.cookie.indexOf(name + "=");
+    if (start !== -1) {
+      start = start + name.length + 1;
+      var end = document.cookie.indexOf(";", start);
+      if (end === -1) {
+        end = document.cookie.length;
+      }
+      return unescape(document.cookie.substring(start, end));
+    }
+  }
+  return "";
+}
+function save(dataModel) {
+  var value = dataModel.serialize();
+  document.cookie = "DataModel=" + escape(value);
+  document.cookie = "DataCount=" + dataModel.size();
+  console.log(dataModel.size() + " datas are saved");
+  return value;
+}
+function restore(dataModel) {
+  var value = getCookieValue("DataModel");
+  if (value) {
+    dataModel.deserialize(value);
+    console.log(getCookieValue("DataCount") + " datas are restored");
+    return value;
+  }
+  return "";
+}
+function clear() {
+  if (getCookieValue("DataModel")) {
+    console.log(getCookieValue("DataCount") + " datas are cleared");
+    document.cookie = "DataModel=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+    document.cookie = "DataCount=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+  }
+}
+```
+
+2. <font color="#f06">Storage</font>
+
+   一种是永久存储的 localStorage,一种是会话期间存储的 sessionStorage
+
+- 优点：
+  - 存储空间更大,有 5M 大小
+  - 在浏览器发送请求是不会带上 web Storage 里的数据
+  - 更加友好的 API
+  - 可以做永久存储(localStorage).
+- 缺点：
+  - 随着 web 应用程序的不断发展,5M 的存储大小对于一些大型的 web 应用程序来说有些不够
+  - web Storage 只能存储 string 类型的数据.对于 Object 类型的数据只能先用 JSON.stringify()转换一下在存储.
+
+```js
+function save(dataModel) {
+  var value = dataModel.serialize();
+  window.localStorage["DataModel"] = value;
+  window.localStorage["DataCount"] = dataModel.size();
+  console.log(dataModel.size() + " datas are saved");
+  return value;
+}
+function restore(dataModel) {
+  var value = window.localStorage["DataModel"];
+  if (value) {
+    dataModel.deserialize(value);
+    console.log(window.localStorage["DataCount"] + " datas are restored");
+    return value;
+  }
+  return "";
+}
+function clear() {
+  if (window.localStorage["DataModel"]) {
+    console.log(window.localStorage["DataCount"] + " datas are cleared");
+    delete window.localStorage["DataModel"];
+    delete window.localStorage["DataCount"];
+  }
+}
+```
+
+3. <font color="#f06">IndexedDB</font>
+
+IndexedDB 是一种使用浏览器存储大量数据的方法.它创造的数据可以被查询，并且可以离线使用. IndexedDB 对于那些需要存储大量数据，或者是需要离线使用的程序是非常有效的解决方法. --- MDN
+
+[MDN---IndexedDB](!https://developer.mozilla.org/zh-CN/docs/Web/API/IndexedDB_API)  
+[HTML5 进阶系列：indexedDB 数据库](!https://juejin.im/post/59013d2c0ce46300614ebe70)
 
 > #### 浏览器是怎么对 HTML5 的离线储存资源进行管理和加载的呢？
 
-> #### 请描述一下 cookies，sessionStorage 和 localStorage 的区别？
+- 在线的情况下，浏览器发现 html 头部有 manifest 属性，它会请求 manifest 文件，如果是第一次访问 app，那么浏览器就会根据 manifest 文件的内容下载相应的资源并且进行离线存储。如果已经访问过 app 并且资源已经离线存储了，那么浏览器就会使用离线的资源加载页面，然后浏览器会对比新的 manifest 文件与旧的 manifest 文件，如果文件没有发生改变，就不做任何操作，如果文件改变了，那么就会重新下载文件中的资源并进行离线存储。
+- 离线的情况下，浏览器就直接使用离线存储的资源。
 
-> #### iframe 有那些缺点？
+> #### iframe 有那些优缺点？
 
-> #### 如何在页面上实现一个圆形的可点击区域？
-
-> #### 实现不使用 border 画出 1px 高的线，在不同浏览器的 Quirksmode 和 CSSCompat 模式下都能保持同一效果。
+- 优点：
+  1. iframe 能够原封不动的把嵌入的网页展现出来。
+  2. 如果有多个网页引用 iframe，那么你只需要修改 iframe 的内容，就可以实现调用的每一个页面内容的更改，方便快捷。
+  3. 网页如果为了统一风格，头部和版本都是一样的，就可以写成一个页面，用 iframe 来嵌套，可以增加代码的可重用。
+  4. 如果遇到加载缓慢的第三方内容如图标和广告，这些问题可以由 iframe 来解决。
+- 缺点：
+  1. 会产生很多页面，不容易管理。
+  2. iframe 框架结构有时会让人感到迷惑，如果框架个数多的话，可能会出现上下、左右滚动条，会分散访问者的注意力，用户体验度差。
+  3. 代码复杂，无法被一些搜索引擎索引到，这一点很关键，现在的搜索引擎爬虫还不能很好的处理 iframe 中的内容，所以使用 iframe 会不利于搜索引擎优化。
+  4. 很多的移动设备（PDA 手机）无法完全显示框架，设备兼容性差。
+  5. iframe 框架页面会增加服务器的 http 请求，对于大型网站是不可取的。  
+     分析了这么多，现在基本上都是用 Ajax 来代替 iframe，所以 iframe 已经渐渐的退出了前端开发。
 
 > #### Canvas
 

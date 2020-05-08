@@ -77,3 +77,31 @@
   </script>
 </body>
 ```
+
+> #### 扩大可点击区域
+
+- 关键实现：`伪元素`
+
+- 具体分析：利用伪元素和定位达到鼠标移到边缘时候出现手型且可点击
+
+  ```css
+  .expand-range {
+    position: relative;
+  }
+  .expand-range:after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    bottom: -10px;
+    left: -10px;
+  }
+  ```
+
+> #### 折角
+
+- 关键实现：线性渐变
+
+- 具体分析：150deg 是为了形成 30 度角，方便利用勾股定理测出各种长度
+
+<img src="imgs/zhejiao.png" />

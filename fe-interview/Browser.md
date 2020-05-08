@@ -12,9 +12,9 @@
 
 当元素的样式发生变化时，浏览器需要触发更新，重新绘制元素。这个过程中，有两种类型的操作，即重绘与回流。
 
-- <b>重绘(repaint)</b>: 当元素样式的改变不影响布局时，浏览器将使用重绘对元素进行更新，此时由于只需要 UI 层面的重新像素绘制，因此 损耗较少
+- **重绘(repaint)**: 当元素样式的改变不影响布局时，浏览器将使用重绘对元素进行更新，此时由于只需要 UI 层面的重新像素绘制，因此 损耗较少
 
-- <b>回流(reflow)</b>: 当元素的尺寸、结构或触发某些属性时，浏览器会重新渲染页面，称为回流。此时，浏览器需要重新经过计算，计算后还需要重新页面布局，因此是较重的操作。会触发回流的操作:
+- **回流(reflow)**: 当元素的尺寸、结构或触发某些属性时，浏览器会重新渲染页面，称为回流。此时，浏览器需要重新经过计算，计算后还需要重新页面布局，因此是较重的操作。会触发回流的操作:
 
   - 页面首次加载(无法避免)
   - 添加或者删除可见的 dom 元素
@@ -35,53 +35,26 @@
 
 - 减少回流和重绘的
 
-1.  我们可以将对元素多次的属性变化改成一次例如直接通过添加 class 的方式来改变样式：
+  - CSS
 
-    ```js
-    // 该写法将触发三次回流（不考虑浏览器优化的情况，即使浏览器优化的情况）
-    const el = document.getElementById("test");
-    el.style.padding = "1px";
-    el.style.borderLeft = "1px";
-    el.style.borderRight = "1px";
+    - 避免使用 table 布局。
+    - 尽可能在 DOM 树的最末端改变 class。
+    - 避免设置多层内联样式。
+    - 将动画效果应用到 position 属性为 absolute 或 fixed 的元素上。
+    - 避免使用 CSS 表达式(例如：calc())。
 
-    // 该写法只会触发一次视图回流
-    const el = document.getElementById("test");
-    el.style.cssText += "border-left: 1px; border-right: 1px; padding: 1px;";
+  - JavaScript
 
-    // 或者
-    const el = document.getElementById("test");
-    el.classList.add("test"); // 该样式如上添加的样式
-    ```
+    - 避免频繁操作样式，最好一次性重写 style 属性，或者将样式列表定义为 class 并一次性更改 class 属性。
+    - 避免频繁操作 DOM，创建一个 documentFragment，在它上面应用所有 DOM 操作，最后再把它添加到文档中。
+    - 也可以先为元素设置 display: none，操作结束后再把它显示出来。因为在 display 属性为 none 的元素上进行的 DOM 操作不会引发回流和重绘。
+    - 避免频繁读取会引发回流/重绘的属性，如果确实需要多次使用，就用一个变量缓存起来。
+    - 对具有复杂动画的元素使用绝对定位，使它脱离文档流，否则会引起父元素及后续元素频繁回流。
 
-2.  将需要样式修改的元素如动画元素等，使用 position:absolute 等方法，让其脱离文档流，这样该元素的样式改变了就不会影响其他的 dom 结构
+> #### localStorage 与 sessionStorage 与 cookie 的区别总结
 
-3.  将需要复杂操作的元素现在内存中进行操作，不去渲染它，在完成操作以后再去渲染：
-
-    ```js
-    const el = document.createElement("div");
-    el.style.padding = "1px";
-    el.style.borderLeft = "1px";
-    el.style.borderRight = "1px";
-    // 在对元素完成相关操作后再渲染
-    element.appendChild(div);
-    ```
-
-4.  需要循环插入多条数据时，应该生成代码片段后再一次性插入，不要每次循环都插入一条数据。
-
-5.  我们知道 render-tree 只会处理 display 不为 none 的 dom 节点，因此如果要对一个 dom 节点做复杂操作可以先把该节点的 display 设置为 none 然后在进行相关操作，最后再将该节点设置为可见，这样只会触发两次的回流。
-
-6.  如上我们知道，当使用一些 js 方法的时候会强制触发回流，比如获取元素的 width 属性，此时我们可以将改属性缓存起来，而不是每次都去直接获取触发回流：
-
-    ```js
-    // 此时将触发10次回流
-    for (let i = 0; i < 10; i++) {
-      list[i].style.width = box.offsetWidth + "px";
-    }
-    // 此时只触发一次
-    let width = box.offsetWidth;
-    for (let i = 0; i < 10; i++) {
-      list[i].style.width = width + "px";
-    }
-    ```
-
-- 使用 css3 的 GPU 硬件加速，可以让 transform、opacity、filters 这些动画不会引起回流重绘
+- 共同点: 都保存在浏览器端, 且同源
+- localStorage 与 sessionStorage 统称 webStorage,保存在浏览器,不参与服务器通信,大小为 5M
+- 生命周期不同: localStorage 永久保存, sessionStorage 当前会话, 都可手动清除
+- 作用域不同: 不同浏览器不共享 local 和 session, 不同会话不共享 session
+- Cookie: 设置的过期时间前一直有效, 大小 4K.有个数限制, 各浏览器不同, 一般为 20 个.携带在 HTTP 头中, 过多会有性能问题.可自己封装, 也可用原生

@@ -4,6 +4,16 @@
 - 尽可能少的使用无语义的标签 div 和 span；
 - 不要使用纯样式标签，如：b、font、u 等，改用 css 设置。
 
+> #### DIV+CSS 布局的优缺点
+
+- 代码精简，且结构与样式分离，易于维护
+- 代码量减少了，减少了大量的带宽，页面加载的也更快，提升了用户的体验
+- 对 SEO 搜索引擎更加友好，且 H5 又新增了许多语义化标签更是如此
+- 允许更多炫酷的页面效果，丰富了页面
+- 符合 W3C 标准，保证网站不会因为网络应用的升级而被淘汰
+
+- 缺点：不同浏览器对 web 标准默认值不同，所以更容易出现对浏览器的兼容性问题。
+
 > #### HTML5 新增标签
 
 - 语义化：`<header><footer><main><nav><article><aside><progress><dialog>`
@@ -173,3 +183,49 @@ IndexedDB 是一种使用浏览器存储大量数据的方法.它创造的数据
 - canvas 缺点：
   - 事件分发由 canvas 处理，绘制的内容的事件需要自己做处理。
   - 依赖于像素，无法高效保真，画布较大时候性能较低。
+
+> #### 如何解决 a 标点击后 hover 事件失效的问题?
+
+改变 a 标签 css 属性的排列顺序
+只需要记住 `LoVe HAte` 原则就可以了：
+`link→visited→hover→active`
+比如下面错误的代码顺序：
+
+```css
+a:hover{
+color: green;
+text-decoration: none;
+}
+a:visited{ /_ visited 在 hover 后面，这样的话 hover 事件就失效了 _/
+color: red;
+text-decoration: none;
+}
+```
+
+正确的做法是将两个事件的位置调整一下。
+注意 ⚠️ 各个阶段的含义：
+
+- a:link：未访问时的样式，一般省略成 a
+- a:visited：已经访问后的样式
+- a:hover：鼠标移上去时的样式
+- a:active：鼠标按下时的样式
+
+> #### 点击一个 input 依次触发的事件
+
+```js
+const text = document.getElementById("text");
+text.onclick = function (e) {
+  console.log("onclick");
+};
+text.onfocus = function (e) {
+  console.log("onfocus");
+};
+text.onmousedown = function (e) {
+  console.log("onmousedown");
+};
+text.onmouseenter = function (e) {
+  console.log("onmouseenter");
+};
+```
+
+答：`'onmouseenter'`、`'onmousedown'`、`'onfocus'`、`'onclick'`

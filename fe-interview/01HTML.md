@@ -16,9 +16,10 @@
 
 > #### HTML5 新增标签
 
-- 语义化：`<header><footer><main><nav><article><aside><progress><dialog>`
-- 图像：`<canvas><svg>`
-- 媒体类型：`<audio><video>`
+- 标签：新增语义化标签（aside / figure / section / header / footer / nav 等），增加多媒体标签 video 和 audio，使得样式和结构更加分离
+- 属性：增强表单，主要是增强了 input 的 type 属性；meta 增加 charset 以设置字符集；script 增加 async 以异步加载脚本
+- 存储：增加 localStorage、sessionStorage 和 indexedDB，引入了 application cache 对 web 和应用进行缓存
+- API：增加拖放 API、地理定位、SVG 绘图、canvas 绘图、Web Worker、WebSocket
 
 > #### meta 标签
 

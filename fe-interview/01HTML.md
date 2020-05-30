@@ -31,12 +31,23 @@
   - 如果设置了 charset 属性，meta 元素是一个字符集声明，告诉文档使用哪种字符编码。
   - 如果设置了 itemprop 属性，meta 元素提供用户定义的元数据。
 
+```html
+<meta charset="utf-8" />
+<meta http-equiv="expires" content="31 Dec 2008" />
+<meta name="keywords" content="HTML,ASP,PHP,SQL" />
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
+/>
 ```
-<meta charset="utf-8">
-<meta http-equiv="expires" content="31 Dec 2008">
-<meta name="keywords" content="HTML,ASP,PHP,SQL">
-<meta name="viewport", content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0,  minimum-scale=1.0">
-```
+
+- width：设置 viewport 宽度，为一个正整数，或字符串‘device-width’
+- device-width：设备宽度
+- height：设置 viewport 高度，一般设置了宽度，会自动解析出高度，可以不用设置
+- initial-scale：默认缩放比例（初始缩放比例），为一个数字，可以带小数
+- minimum-scale：允许用户最小缩放比例，为一个数字，可以带小数
+- maximum-scale：允许用户最大缩放比例，为一个数字，可以带小数
+- user-scalable：是否允许手动缩放
 
 > #### 页面导入样式时，使用 link 和@import 有什么区别？
 

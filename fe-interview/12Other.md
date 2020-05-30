@@ -15,6 +15,7 @@
 - 页面使用骨架屏，提高首页加载速度（提高加载速度）
 - 使用 JPEG 2000, JPEG XR, and WebP 的图片格式来代替现有的 jpeg 和 png，当页面图片较多时，这点作用非常明显
 - 使用图片懒加载-lazyload
+- 使用 CSS3 动画代替 JS 动画（尽可能避免重绘重排以及回流）；
 
 > #### 首屏加载优化
 
@@ -130,8 +131,6 @@
 - 口诀：插冒归基稳定，快选堆希不稳定
   <img src="imgs/paixu_fuzadu.jpg" />
 
-
-
 > #### 前后端路由差别
 
 1. 后端每次路由请求都是重新访问服务器
@@ -155,13 +154,13 @@
   观察者模式算是前端最常用的设计模式了，观察者模式概念很简单：观察者监听被观察者的变化，被观察者发生改变时，通知所有的观察者。观察者模式被广泛用于监听事件的实现。有些文章也把观察者模式称为发布订阅模式，其实二者是有所区别的，发布订阅相较于观察者模式多一个调度中心。
 
 - `装饰器模式`
-  装饰器模式，可以理解为对类的一个包装，动态地拓展类的功能，ES7的装饰器语法以及React中的高阶组件（HoC）都是这一模式的实现。
+  装饰器模式，可以理解为对类的一个包装，动态地拓展类的功能，ES7 的装饰器语法以及 React 中的高阶组件（HoC）都是这一模式的实现。
 
 - `适配器模式`
   适配器模式，将一个接口转换成客户希望的另一个接口，使接口不兼容的那些类可以一起工作。我们在生活中就常常有使用适配器的场景，例如出境旅游插头插座不匹配，这时我们就需要使用转换插头，也就是适配器来帮我们解决问题。
 
 - `代理模式`
-  代理模式，为一个对象找一个替代对象，以便对原对象进行访问。即在访问者与目标对象之间加一层代理，通过代理做授权和控制。事件代理、JQuery的$.proxy、ES6的proxy都是这一模式的实现。
+  代理模式，为一个对象找一个替代对象，以便对原对象进行访问。即在访问者与目标对象之间加一层代理，通过代理做授权和控制。事件代理、JQuery 的\$.proxy、ES6 的 proxy 都是这一模式的实现。
 
 > #### TypeScript
 
@@ -172,3 +171,32 @@
 > #### Flutter
 
 > #### SSR
+
+> #### JS 判断用户设备
+
+```js
+function deviceType(){
+      var ua = navigator.userAgent;
+      var agent = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+      for(var i=0; i<len,len = agent.length; i++){
+          if(ua.indexOf(agent[i])>0){
+              break;
+          }
+      }
+  }
+  deviceType();
+  window.addEventListener('resize', function(){
+      deviceType();
+  })
+
+
+  //微信的 有些不太一样
+  function isWeixin(){
+      var ua = navigator.userAgent.toLowerCase();
+      if(ua.match(/MicroMessenger/i)=='micromessenger'){
+          return true;
+      }else{
+          return false;
+      }
+  }
+```

@@ -105,3 +105,29 @@
 - 具体分析：150deg 是为了形成 30 度角，方便利用勾股定理测出各种长度
 
 <img src="imgs/zhejiao.png" />
+
+> #### css 实现单行文本溢出显示 ...
+
+```css
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+```
+
+> #### 让图文不可复制
+
+```css
+-webkit-user-select: none;
+-ms-user-select: none;
+-moz-user-select: none;
+-khtml-user-select: none;
+user-select: none;
+```
+
+那有些网页为了尊重原创，复制的文本 都会被加上一段来源说明，是如何做到的呢？问的好！ 等的就是你这个问题 -\_- 。
+
+大致思路：
+
+1、答案区域监听 copy 事件，并阻止这个事件的默认行为。
+2、获取选中的内容（window.getSelection()）加上版权信息，
+然后设置到剪切板（clipboarddata.setData()）。

@@ -79,3 +79,21 @@
 4. Push Cache
    即推送缓存，是 HTTP/2 的内容，目前应用较少
 5. 以上缓存都没命中就会进行网络请求
+
+> #### 原生 jsonp 跨域（只支持 GET 请求）
+
+```html
+<script>
+  var script = document.createElement("script");
+  script.type = "text/javascript";
+
+  // 传参并指定回调执行函数为jsonp
+  script.src = "https://api.asilu.com/geo?a=1&callback=jsonp"; //这个是获取当前经纬度的接口
+  document.head.appendChild(script); //创建并添加script标签到<head>下
+
+  // 回调执行函数
+  function jsonp(res) {
+    alert(JSON.stringify(res));
+  }
+</script>
+```

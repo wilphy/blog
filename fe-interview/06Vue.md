@@ -183,6 +183,8 @@ window.onhashchange = function (event) {
 
 > #### 路由守卫
 
+[vue官网](https://router.vuejs.org/zh/guide/advanced/navigation-guards.html)
+
 > #### Vue 原理
 
 > #### 虚拟 DOM

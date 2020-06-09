@@ -8,7 +8,9 @@
 
 > #### 检测浏览器版本版本有哪些方式？
 
-> #### 重绘与回流
+- 一种是检测 `window.navigator.userAgent` 的值，但这种方式很不可靠，因为 userAgent 可以被改写，并且早期的浏览器如 ie，会通过伪装自己的 userAgent 的值为 Mozilla 来躲过服务器的检测。
+
+- 第二种方式是功能检测，根据每个`浏览器独有的特性`来进行判断，如 ie 下独有的 ActiveXObject。
 
 当元素的样式发生变化时，浏览器需要触发更新，重新绘制元素。这个过程中，有两种类型的操作，即重绘与回流。
 
@@ -84,16 +86,16 @@
 
 ```html
 <script>
-  var script = document.createElement("script");
-  script.type = "text/javascript";
+  var script = document.createElement("script")
+  script.type = "text/javascript"
 
   // 传参并指定回调执行函数为jsonp
-  script.src = "https://api.asilu.com/geo?a=1&callback=jsonp"; //这个是获取当前经纬度的接口
-  document.head.appendChild(script); //创建并添加script标签到<head>下
+  script.src = "https://api.asilu.com/geo?a=1&callback=jsonp" //这个是获取当前经纬度的接口
+  document.head.appendChild(script) //创建并添加script标签到<head>下
 
   // 回调执行函数
   function jsonp(res) {
-    alert(JSON.stringify(res));
+    alert(JSON.stringify(res))
   }
 </script>
 ```
